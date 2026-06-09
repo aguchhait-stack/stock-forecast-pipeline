@@ -1,0 +1,10 @@
+__pycache__
+*.pyc
+.git
+.env
+.venv
+*.db
+*.sqlite
+.DS_Store
+notebook.ipynb
+README_files/

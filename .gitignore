@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Jupyter (only checkpoints, not notebook)
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Docker
+*.log
+
+# Environment
+.env.local
+.env.*.local
+
+# Project specific
+README_files/
+*.pyc
+*.pyo
+
+# Secrets
+*.pem
+*.key
