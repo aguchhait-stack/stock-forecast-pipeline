@@ -1,5 +1,6 @@
 import pandas as pd
 def baseline_forecast(df_feature: pd.DataFrame) -> None:
+
     ticker = df_feature.columns[0]
     
     last_price = df_feature[ticker].iloc[-1]

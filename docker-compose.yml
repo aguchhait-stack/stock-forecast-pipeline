@@ -1,16 +1,14 @@
-version: '3.8'
-
 services:
   app:
     build: .
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/stock_db
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/stock_db
     volumes:
-      - ./sql:/app/sql
-      - ./src:/app/src
-      - ./.env:/app/.env
+      - ./outputs:/app/outputs
+      - ./data:/app/data
 
   postgres:
     image: postgres:15
@@ -22,6 +20,11 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
 volumes:
   postgres_data:

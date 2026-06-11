@@ -1,10 +1,11 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+plt.style.use('ggplot')
 
 def plot_trend_volatility(df: pd.DataFrame) -> None:
     ticker = df.columns[0]
     fig, axes = plt.subplots(3, 1, figsize=(12, 8))
-    axes[0].plot(df[ticker], 'b-', label="Daily")
+    axes[0].plot(df[ticker], 'b-', label="Daily Closing Price")
     axes[1].plot(df[ticker].rolling(21).mean(), 'g-', label="Trend (21-day MA)")
     axes[2].plot(df[ticker].rolling(21).std(), 'r-', label="21-day Volatility")
     for ax in axes:
@@ -36,25 +37,11 @@ def plot_cumulative_return(df: pd.DataFrame) -> None:
     plt.figure(figsize=(12, 5))
     plt.plot(cumulative_return, 'b-', linewidth=2, label=f"{ticker} Cumulative Return")
     plt.axhline(0, linestyle='--', color='black', alpha=0.3)
+    plt.xlabel("Date")
+    plt.ylabel("Cumulative Return (%)")
     plt.legend()
     plt.grid(alpha=0.7)
     plt.title(f"{ticker} Cumulative Return (%)")
     plt.tight_layout()
     plt.savefig(f"outputs/{ticker}_cumulative_return.png")
-    #plt.show()
-
-def plot_price_analysis(df: pd.DataFrame) -> None:
-    ticker = df.columns[0]
-    returns = df[ticker].pct_change()
-    fig, axes = plt.subplots(3, 1, figsize=(12, 8))
-    axes[0].plot(df[ticker],'b-')
-    axes[0].set_title(f"{ticker} Price")
-    axes[1].plot(returns,'g-')
-    axes[1].set_title("Daily Returns")
-    axes[2].hist(returns.dropna(), bins=50)
-    axes[2].set_title("Returns Distribution")
-    for ax in axes:
-        ax.grid(alpha=0.7)
-    plt.tight_layout()
-    plt.savefig(f"outputs/{ticker}_price_analysis.png")
     #plt.show()

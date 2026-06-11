@@ -1,9 +1,13 @@
 from sqlalchemy import create_engine
 import pandas as pd
+import os
 
 def load_to_sql (df:pd.DataFrame) :
 
-    engine = create_engine('postgresql://postgres@localhost:5432/stock_db')
+    database_url = os.getenv("DATABASE_URL", 
+                             "postgresql://postgres@localhost:5432/stock_db")
+
+    engine = create_engine(database_url)
     
     df = df.reset_index()
     df.columns = df.columns.str.lower()
