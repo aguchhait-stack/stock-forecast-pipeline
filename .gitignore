@@ -48,3 +48,4 @@ README_files/
 *.pem
 *.key
 .env
+*.html
