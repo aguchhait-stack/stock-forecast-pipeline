@@ -7,14 +7,17 @@ ticker = "AAPL"
 
 if __name__ == "__main__":
 
+    # Fetch data
     try: 
+        
         df = fetch_from_yahoo(ticker=ticker)
     
     except ValueError as e:
 
         print(f"Error: {e}")
-        exit(1)
+        exit(1) # stop if fails
 
+    # Save to database (optional, continue if fails)
     try:
         load_to_sql(df)
     except Exception as e:
@@ -22,9 +25,11 @@ if __name__ == "__main__":
 
     df_features = add_features(df)
     baseline_forecast(df_features)
-    plot_trend_volatility(df_features)
-    plot_returns(df_features)
-    plot_cumulative_return(df_features)
+    plot_trend_volatility(df)
+    plot_returns(df)
+    plot_cumulative_return(df)
+    
+    print("✅ Pipeline completed successfully")
 
 
 

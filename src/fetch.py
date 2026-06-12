@@ -8,15 +8,11 @@ def fetch_from_yahoo (ticker:str = None) -> pd.DataFrame:
         if ticker is None:
                 raise ValueError("Please provide a ticker ")
         
-        try:
-                df = yf.download(ticker,period = '5Y')["Close"]
+        df = yf.download(ticker,period = '5Y')["Close"]
         
-        except Exception:
-
-                raise ValueError(f"No data found for {ticker}")
-        
+        # yf.download() return empty DataFrame for invaid ticker
         if df.empty:
-                raise ValueError (f"No price data found for {ticker}")
+                raise ValueError (f"No data found, symbol may be delisted {ticker}")
 
         df.index = df.index.tz_localize("UTC").tz_convert("Europe/London")
         print(f"✅ Fetched {ticker} | {len(df)} trading days")

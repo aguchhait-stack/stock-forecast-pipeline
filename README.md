@@ -1,6 +1,7 @@
 # Stock Forecast Pipeline
 
-A containerized data pipeline that downloads stock data (AAPL, MSFT, GOOGL, JPM, SPY) from Yahoo Finance, stores it in PostgreSQL, and runs Python/SQL time-series analysis with forecasting capabilities.
+A containerised data pipeline that downloads stock data from Yahoo Finance, stores it in PostgreSQL, engineers time-series features, and serves a live Streamlit dashboard with forecasting signals.
+
 
 ## Live Demo
 
@@ -12,6 +13,30 @@ A containerized data pipeline that downloads stock data (AAPL, MSFT, GOOGL, JPM,
 ![Returns](outputs/AAPL_returns.png)
 ![Cumulative Return](outputs/AAPL_cumulative_return.png)
 
+## Key Findings
+- AAPL 5-year cumulative return: ~63%
+- Current signal: UP (price below MA21)
+- Average daily volatility tracked via 21-day rolling std
+
+## Project Structure
+
+```
+├── Dockerfile
+├── README.md
+├── app.py           # Streamlit dashboard
+├── docker-compose.yml
+├── main.py          # pipeline entry point
+├── requirements.txt
+├── sql
+│   └── analysis.sql # window functions, forecast signal
+└── src
+    ├── __init__.py
+    ├── db.py       # PostgreSQL connection
+    ├── features.py  # feature engineering (returns, MA, volatility)
+    ├── fetch.py     # yfinance data download
+    ├── model.py    # MA baseline forecast signal
+    └── visualise.py
+```
 ## Future Work
 
 - ARIMA/SARIMA time series forecasting
@@ -19,22 +44,27 @@ A containerized data pipeline that downloads stock data (AAPL, MSFT, GOOGL, JPM,
 
 ## Tech
 
-Python / PostgreSQL / Docker
+- Python (pandas, numpy, yfinance, sqlalchemy)
+- PostgreSQL
+- Docker
+- Streamlit
+- GitHub Actions (CI/CD)
 
 ## Quick Start
 
 ```bash
 git clone https://github.com/aguchhait-stack/stock-forecast-pipeline.git
 cd stock-forecast-pipeline
+cp .env.example .env
 docker-compose up
-
-# Run the dashboard
 streamlit run app.py
 ```
 
-## 📄 License
+## 📄 License & Acknowledgments
 
-MIT License — free to use, modify, and distribute.
+MIT License
+
+**AI assistance:** Claude (Anthropic) and DeepSeek for CI/CD, code review, and debugging.
 
 ---
 

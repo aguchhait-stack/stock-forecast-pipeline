@@ -7,7 +7,6 @@ def add_features(df: pd.DataFrame) -> pd.DataFrame:
 
     for ticker in df.columns:
         df_feature[f"{ticker}_daily_return"] = df_feature[ticker].pct_change(periods=1).mul(100)
-        df_feature[f"{ticker}_return_lag1"] = df_feature[ticker].pct_change(periods=1).mul(100).shift(1)
         df_feature[f"{ticker}_weekly_return"] = df_feature[ticker].pct_change(periods=5).mul(100)
         df_feature[f"{ticker}_ma21"] = df_feature[ticker].rolling(window=21).mean()
         df_feature[f"{ticker}_vol21"] = df_feature[ticker].rolling(window=21).std()

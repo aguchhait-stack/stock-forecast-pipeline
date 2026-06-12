@@ -2,7 +2,7 @@ name: Daily Stock Update
 
 on:
   schedule:
-    - cron: '0 9 * * *'
+    - cron: '0 9 * * 1-5'  # Monday to Friday only
   workflow_dispatch:
 
 jobs:
@@ -11,19 +11,24 @@ jobs:
     permissions:
       contents: write
     steps:
+      # Pull the latest code from the repo
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      # Install all dependencies
       - run: pip install -r requirements.txt
+      # Run the main pipeline
       - run: python main.py
+      # Commit and push only if plots have changed
       - name: Commit and push updated plots
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add outputs/*.png
-          git commit -m "Auto-update stock plots [skip ci]" || echo "No changes to commit"
+          git diff --cached --quiet || git commit -m "Auto-update stock plots [skip ci]"
           git push
+      # Save plots as artifacts
       - uses: actions/upload-artifact@v4
         with:
           name: outputs
